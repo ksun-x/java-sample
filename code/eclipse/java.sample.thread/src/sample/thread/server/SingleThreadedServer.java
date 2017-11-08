@@ -5,6 +5,9 @@ import java.net.Socket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SingleThreadedServer implements Runnable {
 	
@@ -27,7 +30,7 @@ public class SingleThreadedServer implements Runnable {
         while(!isStopped()){
             Socket clientSocket = null;
             try {
-                clientSocket = this.serverSocket.accept();
+                clientSocket = this.serverSocket.accept(); // wait for a client request
             } catch (IOException e) {
                 if(isStopped()) {
                     System.out.println("Server Stopped.") ;
@@ -43,17 +46,29 @@ public class SingleThreadedServer implements Runnable {
             }
         }
         
-        System.out.println("Server Stopped.");
+        System.out.println("Server Stopped");
 	}
 	
 	private void processClientRequest(Socket clientSocket) throws Exception {
 		InputStream  input  = clientSocket.getInputStream();
 		OutputStream output = clientSocket.getOutputStream();
 		long time = System.currentTimeMillis();
-
-		byte[] responseDocument = ("<html><body>" + "Singlethreaded Server: " +
-		                time + "</body></html>").getBytes("UTF-8");
-
+		
+		System.out.println("InputStream:");
+		int i = 0;
+		int counter = 0;
+		while (counter < 4 && ((i = input.read()) != -1)) {
+			char ch = (char) i;
+			if (ch == '\n' || ch == '\r') {
+				counter++;
+			} else {
+				counter = 0;
+			}
+			System.out.print(ch);
+		}
+		System.out.println("\nInputStream End");
+		
+		byte[] responseDocument = ("<html><body>" + "Hello world!" + "</body></html>").getBytes("UTF-8");
 		byte[] responseHeader =
 		            ("HTTP/1.1 200 OK\r\n" +
 		            "Content-Type: text/html; charset=UTF-8\r\n" +
