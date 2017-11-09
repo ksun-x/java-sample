@@ -1,6 +1,6 @@
 package sample.thread.server;
 
-public class Sever {
+public class SingleThreadedSeverEntry {
 
 	public static void main(String[] args) {
 		SingleThreadedServer server = new SingleThreadedServer(9000);

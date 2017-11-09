@@ -57,16 +57,18 @@ public class SingleThreadedServer implements Runnable {
 		System.out.println("InputStream:");
 		int i = 0;
 		int counter = 0;
+		StringBuilder inputStr = new StringBuilder();
 		while (counter < 4 && ((i = input.read()) != -1)) {
 			char ch = (char) i;
+			inputStr.append(ch);
 			if (ch == '\n' || ch == '\r') {
 				counter++;
 			} else {
 				counter = 0;
 			}
-			System.out.print(ch);
 		}
-		System.out.println("\nInputStream End");
+		System.out.println(inputStr.toString());
+		System.out.println("InputStream End");
 		
 		byte[] responseDocument = ("<html><body>" + "Hello world!" + "</body></html>").getBytes("UTF-8");
 		byte[] responseHeader =
@@ -77,12 +79,12 @@ public class SingleThreadedServer implements Runnable {
 
 		output.write(responseHeader);
 		output.write(responseDocument);
-		output.close();
 		input.close();
+		output.close();
 		System.out.println("Request processed: " + time);
 	}
 	
-	private synchronized boolean isStopped() {
+	protected synchronized boolean isStopped() {
         return this.isStopped;
     }
 	
@@ -95,7 +97,7 @@ public class SingleThreadedServer implements Runnable {
         }
     }
 	
-	private void openServerSocket() {
+	protected void openServerSocket() {
         try {
             this.serverSocket = new ServerSocket(this.serverPort);
         } catch (IOException e) {
