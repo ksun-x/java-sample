@@ -16,6 +16,7 @@ public class WorkerRunnable implements Runnable {
 	
 	@Override
 	public void run() {
+		this.serverName += ": " + Thread.currentThread().getName();
 		processClientRequest();	
 	}
 	
@@ -39,7 +40,7 @@ public class WorkerRunnable implements Runnable {
 			}
 			System.out.println(serverName + ": input result\n" + inputStr.toString());
 			
-			byte[] responseDocument = ("<html><body>" + "Hello from" + serverName + "</body></html>").getBytes("UTF-8");
+			byte[] responseDocument = ("<html><body>" + "Hello from " + serverName + "</body></html>").getBytes("UTF-8");
 			byte[] responseHeader =
 			            ("HTTP/1.1 200 OK\r\n" +
 			            "Content-Type: text/html; charset=UTF-8\r\n" +

@@ -70,7 +70,7 @@ public class SingleThreadedServer implements Runnable {
 		System.out.println(inputStr.toString());
 		System.out.println("InputStream End");
 		
-		byte[] responseDocument = ("<html><body>" + "Hello world!" + "</body></html>").getBytes("UTF-8");
+		byte[] responseDocument = ("<html><body>" + "Hello from " + Thread.currentThread().getName() + "</body></html>").getBytes("UTF-8");
 		byte[] responseHeader =
 		            ("HTTP/1.1 200 OK\r\n" +
 		            "Content-Type: text/html; charset=UTF-8\r\n" +

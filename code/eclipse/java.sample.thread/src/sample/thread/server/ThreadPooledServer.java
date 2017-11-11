@@ -2,10 +2,13 @@ package sample.thread.server;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class MultiThreadedServer extends SingleThreadedServer {
-
-	public MultiThreadedServer(int serverPort) {
+public class ThreadPooledServer extends SingleThreadedServer {
+	protected ExecutorService threadPool = Executors.newFixedThreadPool(2);
+	
+	public ThreadPooledServer(int serverPort) {
 		super(serverPort);		
 	}
 
@@ -27,8 +30,9 @@ public class MultiThreadedServer extends SingleThreadedServer {
                 }
                 throw new RuntimeException("Error accepting client connection", e);
             }			
-            new Thread(new WorkerRunnable(currentClientSocket, "Worker thread ")).start();
+            threadPool.execute(new WorkerRunnable(currentClientSocket, "Pooled thread "));
         }
+        threadPool.shutdown();
         System.out.println("Server stopped") ;
 	}
 }
