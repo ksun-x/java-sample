@@ -26,8 +26,12 @@ public class SingleThreadedServer implements Runnable {
             this.thread = Thread.currentThread();
         }
         openServerSocket();
+
+        // on the same pc, the initialization of server socket must precede the client one
+        Client client = new Client("127.0.0.1", 9000);
+        new Thread(client).start();
         
-        while(!isStopped()){
+		while(!isStopped()){
             Socket clientSocket = null;
             try {
                 clientSocket = this.serverSocket.accept(); // wait for a client request
@@ -54,7 +58,6 @@ public class SingleThreadedServer implements Runnable {
 		OutputStream output = clientSocket.getOutputStream();
 		long time = System.currentTimeMillis();
 		
-		System.out.println("InputStream:");
 		int i = 0;
 		int counter = 0;
 		StringBuilder inputStr = new StringBuilder();
@@ -67,8 +70,7 @@ public class SingleThreadedServer implements Runnable {
 				counter = 0;
 			}
 		}
-		System.out.println(inputStr.toString());
-		System.out.println("InputStream End");
+		System.out.println("Client request:" + inputStr.toString());
 		
 		byte[] responseDocument = ("<html><body>" + "Hello from " + Thread.currentThread().getName() + "</body></html>").getBytes("UTF-8");
 		byte[] responseHeader =
@@ -79,9 +81,11 @@ public class SingleThreadedServer implements Runnable {
 
 		output.write(responseHeader);
 		output.write(responseDocument);
+		// special end-of-data character
+		output.write('#');
 		input.close();
 		output.close();
-		System.out.println("Request processed: " + time);
+		System.out.println("Request processed in time: " + time);
 	}
 	
 	protected synchronized boolean isStopped() {
