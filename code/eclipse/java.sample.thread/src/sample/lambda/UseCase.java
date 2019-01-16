@@ -42,7 +42,8 @@ public class UseCase {
 			// lambda can read/write static variable and instance field, but only read local variable
 			globalCounter++;
 			localCounter++;
-			return Integer.valueOf(origin) + i;};
+			return Integer.valueOf(origin) + i;
+		};
 		System.out.println(converter.convert("123"));
 	}
 	
@@ -69,7 +70,7 @@ public class UseCase {
 	
 	void Function () {
 		Function <String, Integer> toInteger = Integer::valueOf;
-		Function<String, String> backToString = toInteger.andThen(String::valueOf);
+		Function <String, String> backToString = toInteger.andThen(String::valueOf);
 		backToString.apply("123");	// "123"
 	}
 	
@@ -91,6 +92,6 @@ public class UseCase {
 		optional.get();                 // "foo"
 		optional.orElse("fallback");    // "foo"
 
-		optional.ifPresent((s) -> System.out.println(s.charAt(0)));     // "f"
+		optional.ifPresent(s -> System.out.println(s.charAt(0)));     // "f"
 	}
 }
