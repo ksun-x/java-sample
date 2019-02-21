@@ -8,5 +8,6 @@
    <bean id = "messageHelloWorld" class = "sk.spring.Message" init-method = "init" destroy-method = "dispose">
       <property name = "message" value = "Hello World!"/>
    </bean>
-
+   
+   <bean class = "sk.spring.Init"></bean>
 </beans>
