@@ -9,6 +9,8 @@ public class MainApp {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 	    Message obj = (Message) context.getBean("messageHelloWorld");
 	    System.out.println(obj.getMessage());
+	    System.out.println(obj.getMessageFr());
+	    System.out.println(obj.getMessageGe());
 	    context.registerShutdownHook();
 	}
 }
