@@ -30,10 +30,10 @@ public class Message {
 	}
 	
 	public void init () {
-		System.out.println("Bean is initialized");
+		System.out.println("Message bean is initialized");
 	}
 	
 	public void dispose () {
-		System.out.println("Bean is disposed");
+		System.out.println("Message bean is disposed");
 	}
 }

@@ -13,9 +13,16 @@
    </bean>
    
    <!-- parent is another bean's id, like definition template or another class -->
-   <bean id = "messageHelloWorld" class = "sk.spring.Message" parent = "beanDefinitionTemplate" init-method = "init" destroy-method = "dispose">
-      <property name = "message" value = "Hello World"/>
+   <bean id = "message" class = "sk.spring.Message" parent = "beanDefinitionTemplate" init-method = "init" destroy-method = "dispose">
+   	<!-- setter-based dependency injection -->
+   	<property name = "message" value = "Hello World"/>
    </bean>
    
    <bean class = "sk.spring.Init"></bean>
+   
+   <bean id = "speaker" class = "sk.spring.Speaker">
+   	<!-- constructor-based dependency injection -->
+   	<constructor-arg index = "1" ref = "message"></constructor-arg>
+   	<constructor-arg index = "0" value = "Kirk"></constructor-arg>
+   </bean>
 </beans>
