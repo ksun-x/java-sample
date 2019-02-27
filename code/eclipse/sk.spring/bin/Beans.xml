@@ -5,7 +5,7 @@
    xsi:schemaLocation = "http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
    
-   <!-- Bean definition inheritance -->
+   <!-- bean definition inheritance -->
    <bean id = "beanDefinitionTemplate" abstract = "true">
    	<property name = "messageFr" value = "Hello France"/>
    	<property name = "messageGe" value = "Hello Germany"/>
@@ -22,7 +22,11 @@
    
    <bean id = "speaker" class = "sk.spring.Speaker">
    	<!-- constructor-based dependency injection -->
-   	<constructor-arg index = "1" ref = "message"></constructor-arg>
+   	<constructor-arg index = "2" ref = "message"></constructor-arg>
+   	<constructor-arg index = "1" type = "sk.spring.Message">
+   		<!-- inner bean injection -->
+   		<bean id = "innerMessage" class = "sk.spring.Message" parent = "beanDefinitionTemplate"></bean>
+   	</constructor-arg>
    	<constructor-arg index = "0" value = "Kirk"></constructor-arg>
    </bean>
 </beans>
