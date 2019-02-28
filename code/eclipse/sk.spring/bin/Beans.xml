@@ -20,12 +20,14 @@
    
    <bean class = "sk.spring.Init"></bean>
    
-   <bean id = "speaker" class = "sk.spring.Speaker">
+   <bean id = "speaker" class = "sk.spring.Speaker" autowire="byName">
    	<!-- constructor-based dependency injection -->
-   	<constructor-arg index = "2" ref = "message"></constructor-arg>
-   	<constructor-arg index = "1" type = "sk.spring.Message">
-   		<!-- inner bean injection -->
-   		<bean id = "innerMessage" class = "sk.spring.Message" parent = "beanDefinitionTemplate"></bean>
+   	<constructor-arg index = "1">
+   		<!-- collection injection -->
+   		<list>
+   			<ref bean = "message"/>
+   			<bean id = "innerMessage" class = "sk.spring.Message" parent = "beanDefinitionTemplate"></bean>
+   		</list>
    	</constructor-arg>
    	<constructor-arg index = "0" value = "Kirk"></constructor-arg>
    </bean>

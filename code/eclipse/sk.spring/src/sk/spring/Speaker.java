@@ -8,9 +8,9 @@ public class Speaker {
 	String name;
 	List<Message> messages;
 	
-	public Speaker (String name, Message messageAlpha, Message messageBeta) {
+	public Speaker (String name, Message ... messages) {
 		this.name = name;
-		this.messages = Arrays.asList(messageAlpha, messageBeta);
+		this.messages = Arrays.asList(messages);
 	}
 	
 	public void speak () {
