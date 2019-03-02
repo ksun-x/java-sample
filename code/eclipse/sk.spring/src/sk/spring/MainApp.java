@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MainApp {
 	public static void main (String[] args) {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+		context.start();
 		context.registerShutdownHook();
 
 		Message obj = (Message) context.getBean("message");

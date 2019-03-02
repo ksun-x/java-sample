@@ -5,7 +5,7 @@
 	<classpathentry kind="lib" path="/Users/ksun/Software/spring-framework-5.1.4.RELEASE/libs/spring-aop-5.1.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/Users/ksun/Software/spring-framework-5.1.4.RELEASE/libs/spring-aspects-5.1.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/Users/ksun/Software/spring-framework-5.1.4.RELEASE/libs/spring-beans-5.1.4.RELEASE.jar" sourcepath="/Users/ksun/Software/spring-framework-5.1.4.RELEASE/libs/spring-beans-5.1.4.RELEASE-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/ksun/Software/spring-framework-5.1.4.RELEASE/libs/spring-context-5.1.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/Users/ksun/Software/spring-framework-5.1.4.RELEASE/libs/spring-context-5.1.4.RELEASE.jar" sourcepath="/Users/ksun/Software/spring-framework-5.1.4.RELEASE/libs/spring-context-5.1.4.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="/Users/ksun/Software/spring-framework-5.1.4.RELEASE/libs/spring-context-indexer-5.1.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/Users/ksun/Software/spring-framework-5.1.4.RELEASE/libs/spring-context-support-5.1.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/Users/ksun/Software/spring-framework-5.1.4.RELEASE/libs/spring-core-5.1.4.RELEASE.jar"/>
