@@ -32,6 +32,7 @@
    	<constructor-arg index = "0" value = "Kirk"></constructor-arg>
    </bean>
    
-   <!-- register application event handler -->
+   <!-- register application event handler and publisher -->
    <bean id = "eventHandler" class = "sk.spring.EventHandler"/>
+   <bean id = "eventPuslisher" class = "sk.spring.EventPublisher"/>
 </beans>

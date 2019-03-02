@@ -10,13 +10,15 @@ public class MainApp {
 		context.start();
 		context.registerShutdownHook();
 
-		Message obj = (Message) context.getBean("message");
-	    System.out.println(obj.getMessage());
-	    System.out.println(obj.getMessageFr());
-	    System.out.println(obj.getMessageGe());
+		Message message = (Message) context.getBean("message");
+	    System.out.println(message.getMessage());
+	    System.out.println(message.getMessageFr());
+	    System.out.println(message.getMessageGe());
 	    
 	    Speaker speaker = (Speaker) context.getBean("speaker");
 	    speaker.speak();
 	    
+	    // publish custom event
+	    context.publishEvent(new CustomEvent(speaker));
 	}
 }
