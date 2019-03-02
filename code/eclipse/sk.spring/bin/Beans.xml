@@ -2,8 +2,11 @@
 
 <beans xmlns = "http://www.springframework.org/schema/beans"
    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:aop = "http://www.springframework.org/schema/aop"
    xsi:schemaLocation = "http://www.springframework.org/schema/beans
-   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/aop 
+   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
    
    <!-- bean definition inheritance -->
    <bean id = "beanDefinitionTemplate" abstract = "true">
@@ -35,4 +38,17 @@
    <!-- register application event handler and publisher -->
    <bean id = "eventHandler" class = "sk.spring.EventHandler"/>
    <bean id = "eventPuslisher" class = "sk.spring.EventPublisher"/>
+   
+   <!-- XML-based AOP -->
+   <aop:config>
+   	<aop:aspect id = "log" ref = "aspect">
+   		<aop:pointcut id = "select" expression="execution(* sk.spring.Message.*(..))"/>
+   		<!-- <aop:after pointcut-ref = "select" method = "afterReturnAdvice"/> -->
+   	</aop:aspect>
+   </aop:config>
+   
+   <!-- enable @AspectJ annotation-based AOP -->
+   <!-- <aop:aspectj-autoproxy/> -->
+   
+   <bean id = "aspect" class = "sk.spring.Aspect"/>
 </beans>
