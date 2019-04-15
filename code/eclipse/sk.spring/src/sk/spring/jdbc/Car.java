@@ -1,6 +1,8 @@
 package sk.spring.jdbc;
 
 public class Car {
+	final static private String SEPARATOR = ", ";
+	
 	private int id;
 	private String brand;
 	private String model;
@@ -36,5 +38,15 @@ public class Car {
 	
 	public void setPrice (int price) {
 		this.price = price;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder ("Car ");
+		builder.append("ID : " + id + SEPARATOR);
+		builder.append("Brand : " + brand + SEPARATOR);
+		builder.append("Model : " + model + SEPARATOR);
+		builder.append("Price : " + price);
+		return builder.toString();
 	}
 }
