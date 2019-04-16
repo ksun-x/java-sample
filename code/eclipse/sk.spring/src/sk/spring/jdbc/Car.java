@@ -8,6 +8,13 @@ public class Car {
 	private String model;
 	private int price;
 	
+	public Car (int id, String brand, String model, int price) {
+		this.id = id;
+		this.brand = brand;
+		this.model = model;
+		this.price = price;
+	}
+	
 	public int getId() {
 		return id;
 	}
