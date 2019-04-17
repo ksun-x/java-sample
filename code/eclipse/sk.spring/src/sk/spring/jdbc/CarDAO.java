@@ -22,14 +22,13 @@ public class CarDAO {
 	   jdbcTemplate.update(createQuery, id++, brand, model, price);
 	}
 	
-	
 	public void update (String model, int price) {
 		final String updateQuery = "UPDATE Car SET price = ? WHERE model = ?";
 		jdbcTemplate.update(updateQuery, price, model);
 	}
 	
-	public void delete () {
-		final String deleteQuery = "DELETE FROM Car";
+	public void truncate () {
+		final String deleteQuery = "TRUNCATE TABLE Car";
 		jdbcTemplate.update(deleteQuery);
 	}
 	
@@ -51,10 +50,18 @@ public class CarDAO {
 	}
 	
 	public Car getCarViaProcedure (String model) {
-		SimpleJdbcCall procedureCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("getCar");
-		SqlParameterSource in = new MapSqlParameterSource().addValue("model", model);
+		SimpleJdbcCall procedureCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_car");
+		SqlParameterSource in = new MapSqlParameterSource().addValue("in_model", model);
 		Map<String, Object> out = procedureCall.execute(in);
-		return new Car ((int) out.get("id"), (String) out.get("brand"), (String) out.get("model"), (int) out.get("price"));
+		// output key names are uppercase
+		return new Car (Integer.valueOf(out.get("OUT_ID").toString()), (String) out.get("OUT_BRAND"), model, Integer.valueOf(out.get("OUT_PRICE").toString()));
+	}
+	
+	public String getCarBrand (String model) {
+		SimpleJdbcCall procedureCall = new SimpleJdbcCall(jdbcTemplate).withFunctionName("get_car_brand");
+		SqlParameterSource in = new MapSqlParameterSource().addValue("in_model", model);
+		String out = procedureCall.executeFunction(String.class, in);
+		return out;
 	}
 	
 	protected void printCarInfo() {
@@ -65,5 +72,15 @@ public class CarDAO {
 	protected void printCarInfo(String model) {
 		System.out.println("--- Model " + model + "'s Info ---");
 	    System.out.println(getCar(model));
+	}
+	
+	protected void printCarInfoViaProcedure (String model) {
+		System.out.println("--- Model " + model + "'s Info From Procedure Call ---");
+	    System.out.println(getCarViaProcedure(model));
+	}
+	
+	protected void printCarBrand (String model) {
+		System.out.println("--- Model " + model + "'s Info From Function Call ---");
+	    System.out.println("Brand: " + getCarBrand(model));
 	}
 }

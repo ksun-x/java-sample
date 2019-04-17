@@ -1,7 +1,7 @@
 package sk.spring.jdbc;
 
 public class Car {
-	final static private String SEPARATOR = ", ";
+	final static private String SEPARATOR = "; ";
 	
 	private int id;
 	private String brand;

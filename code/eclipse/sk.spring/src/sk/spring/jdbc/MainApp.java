@@ -21,7 +21,7 @@ public class MainApp {
 	    CarDAO carDAO = (CarDAO) (context.getBean("carDAO"));
 	    context.close();
 	    // initialize table
-	    carDAO.delete();
+	    carDAO.truncate();
 	    // create car records
 	    carDAO.create(VW, POLO, 19000);
 	    carDAO.create(PEUGEOT, SUV_3008, 32000);
@@ -31,6 +31,8 @@ public class MainApp {
 	    // update car records
 	    carDAO.update(SUV_3008, 30000);
 	    carDAO.printCarInfo(SUV_3008);
+	    carDAO.printCarInfoViaProcedure(POLO);
+	    carDAO.printCarBrand(M3);
 	    // delete car records
 	    carDAO.delete(M3);
 	    carDAO.printCarInfo();
