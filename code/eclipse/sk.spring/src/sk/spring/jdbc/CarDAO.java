@@ -1,13 +1,19 @@
 package sk.spring.jdbc;
 
+import java.io.ByteArrayInputStream;
+import java.sql.Blob;
+import java.sql.Types;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.jdbc.core.support.SqlLobValue;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
 
 public class CarDAO {
 	private int id = 1;
@@ -22,9 +28,21 @@ public class CarDAO {
 	   jdbcTemplate.update(createQuery, id++, brand, model, price);
 	}
 	
-	public void update (String model, int price) {
-		final String updateQuery = "UPDATE Car SET price = ? WHERE model = ?";
-		jdbcTemplate.update(updateQuery, price, model);
+	
+	public void updatePrice (String model, int price) {
+		final String updatePriceQuery = "UPDATE Car SET price = ? WHERE model = ?";
+		jdbcTemplate.update(updatePriceQuery, price, model);
+	}
+	
+	public void updateDescriptionImage (String model, String description, byte[] image) {
+		final String updateDescriptionQuery = "UPDATE Car SET description = :description, image = :image WHERE model = :model";
+		
+		MapSqlParameterSource in = new MapSqlParameterSource();
+		in.addValue("model", model);
+		in.addValue("description", new SqlLobValue(description, new DefaultLobHandler()), Types.CLOB);
+		in.addValue("image", new SqlLobValue(new ByteArrayInputStream(image), image.length, new DefaultLobHandler()), Types.BLOB);
+		
+		new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource()).update(updateDescriptionQuery, in);
 	}
 	
 	public void truncate () {
@@ -53,8 +71,11 @@ public class CarDAO {
 		SimpleJdbcCall procedureCall = new SimpleJdbcCall(jdbcTemplate).withProcedureName("get_car");
 		SqlParameterSource in = new MapSqlParameterSource().addValue("in_model", model);
 		Map<String, Object> out = procedureCall.execute(in);
-		// output key names are uppercase
-		return new Car (Integer.valueOf(out.get("OUT_ID").toString()), (String) out.get("OUT_BRAND"), model, Integer.valueOf(out.get("OUT_PRICE").toString()));
+		// output parameter names are uppercase
+		Blob blob = (Blob) out.get("OUT_IMAGE");
+		System.out.println("Blob:" + blob);
+		return new Car (Integer.valueOf(out.get("OUT_ID").toString()), (String) out.get("OUT_BRAND"), model, Integer.valueOf(out.get("OUT_PRICE").toString()),
+				String.valueOf(out.get("OUT_DESCRIPTION")), null);
 	}
 	
 	public String getCarBrand (String model) {

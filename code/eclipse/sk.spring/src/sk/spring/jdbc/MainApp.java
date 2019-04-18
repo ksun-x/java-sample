@@ -29,8 +29,9 @@ public class MainApp {
 	    // read car records
 	    carDAO.printCarInfo();
 	    // update car records
-	    carDAO.update(SUV_3008, 30000);
+	    carDAO.updatePrice(SUV_3008, 30000);
 	    carDAO.printCarInfo(SUV_3008);
+	    carDAO.updateDescriptionImage(POLO, "Best small car.", new byte[]{0, 1, 3, 5, 7, 9, 2, 4, 6, 8, 10});
 	    carDAO.printCarInfoViaProcedure(POLO);
 	    carDAO.printCarBrand(M3);
 	    // delete car records

@@ -4,7 +4,9 @@ CREATE TABLE Car (
     model VARCHAR2(10),
     price INT
 );
-/
+
+ALTER TABLE Car 
+    ADD (description CLOB, image BLOB);
 
 INSERT INTO Car (
     id, brand, model, price
@@ -28,11 +30,11 @@ INSERT INTO Car (
 DROP TABLE Car;
 
 CREATE OR REPLACE PROCEDURE get_car
-    (in_model IN CAR.model%type, out_id OUT Car.id%type, out_brand OUT Car.brand%type, out_price OUT Car.price%type)
+    (in_model IN CAR.model%type, out_id OUT Car.id%type, out_brand OUT Car.brand%type, out_price OUT Car.price%type, out_description OUT Car.description%type, out_image OUT Car.image%type)
 AS
     BEGIN
-        SELECT id, brand, price
-        INTO out_id, out_brand, out_price
+        SELECT id, brand, price, description, image
+        INTO out_id, out_brand, out_price, out_description, out_image
         FROM Car
         WHERE model = in_model;
     END;
