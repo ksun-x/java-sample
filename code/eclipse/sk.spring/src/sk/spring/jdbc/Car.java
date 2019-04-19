@@ -12,6 +12,8 @@ public class Car {
 	private String description;
 	private byte[] image;
 	
+	public Car () {}
+	
 	public Car (int id, String brand, String model, int price, String description, byte[] image) {
 		this.id = id;
 		this.brand = brand;

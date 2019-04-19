@@ -2,18 +2,25 @@ package sk.spring.jdbc;
 
 import java.io.ByteArrayInputStream;
 import java.sql.Blob;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
+
+import javafx.util.Pair;
 
 public class CarDAO {
 	private int id = 1;
@@ -28,6 +35,27 @@ public class CarDAO {
 	   jdbcTemplate.update(createQuery, id++, brand, model, price);
 	}
 	
+	public void batchUpdatePrice (List<Pair<String, Integer>> pairs) {
+		final String updateQuery = "UPDATE Car SET price = ? where model = ?";
+		jdbcTemplate.batchUpdate(updateQuery, new BatchPreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				ps.setInt(1, pairs.get(i).getValue());
+				ps.setString(2, pairs.get(i).getKey());
+			}
+
+			@Override
+			public int getBatchSize() {
+				return pairs.size();
+			}
+		});
+	}
+	
+	public void batchUpdatePrice (Car ... cars) {
+		final String updateQuery = "UPDATE Car SET price = :price where model = :model";
+		SqlParameterSource[] parameters = SqlParameterSourceUtils.createBatch(cars);
+		new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource()).batchUpdate(updateQuery, parameters);
+	}
 	
 	public void updatePrice (String model, int price) {
 		final String updatePriceQuery = "UPDATE Car SET price = ? WHERE model = ?";
